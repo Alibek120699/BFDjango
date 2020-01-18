@@ -10,7 +10,7 @@ if __name__ == '__main__':
             ok4 = True
         if i.isupper():
             ok5 = True
-    ok1 = ok3 and ok4 and ok5
+    ok1 = ok3 or ok2
     res = [ok1, ok2, ok3, ok4, ok5]
 
     for i in res:
