@@ -1,18 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser, AbstractBaseUser
-from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User, AbstractUser, \
+    AbstractBaseUser, PermissionsMixin, UserManager
 
 
-class TodoUser(AbstractUser):
-    class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'Users'
+class MyUserManager(UserManager):
+    def create_editor(self, username, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', False)
+        extra_fields.setdefault('is_superuser', False)
+        extra_fields.setdefault('is_editor', True)
+        return self._create_user(username, email, password, **extra_fields)
 
-    def __str__(self):
-        return f'{self.id}: {self.username}'
 
-class TodoUser2(User):
-    pass
+class MyUser(AbstractUser):
+    is_editor = models.BooleanField(default=False)
+    objects = MyUserManager()
 
-class TodoUser3(AbstractBaseUser):
-    pass
+
