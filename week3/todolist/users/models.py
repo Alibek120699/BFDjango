@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User, AbstractUser, \
-    AbstractBaseUser, PermissionsMixin, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 
 
 class MyUserManager(UserManager):
@@ -14,5 +13,8 @@ class MyUserManager(UserManager):
 class MyUser(AbstractUser):
     is_editor = models.BooleanField(default=False)
     objects = MyUserManager()
+
+    # class Meta:
+    #     permissions = ('can_edit', 'Can edit')
 
 
