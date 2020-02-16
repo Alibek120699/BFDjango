@@ -18,3 +18,12 @@ class MyUser(AbstractUser):
     #     permissions = ('can_edit', 'Can edit')
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(MyUser, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.user.username
+
+
+
