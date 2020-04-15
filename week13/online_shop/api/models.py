@@ -22,6 +22,16 @@ class Product(Item):
                             validators=[validate_file_size],
                             null=True, blank=True)
 
+    def _try_to_create_offer(self, created):
+        if created:
+            offer = f'In the shop appears exclusive product {self.name}'
+            Offer.objects.get_or_create(title=offer)
+
+    def save(self, *args, **kwargs):
+        created = self.id is None
+        super(Product, self).save(*args, **kwargs)
+        self._try_to_create_offer(created)
+
 
 class Service(Item):
     duration = models.PositiveIntegerField()
@@ -46,3 +56,10 @@ class ProductOrder(Order):
     item = models.ForeignKey(Product, on_delete=models.CASCADE)
     delivery_price = models.PositiveIntegerField(default=0)
     quantity = models.PositiveSmallIntegerField()
+
+
+class Offer(models.Model):
+    title = models.TextField(max_length=300)
+
+    def __str__(self):
+        return self.title

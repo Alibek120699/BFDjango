@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Item, Product, Service
+from .models import Item, Product, Service, Offer
 from .models import Order, ProductOrder, ServiceOrder
 
 
@@ -79,4 +79,10 @@ class ServiceOrderSerializer(serializers.Serializer):
         instance.discount = validated_data.get('discount', instance.discount)
         instance.save()
         return instance
+
+
+class OfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = ('title', )
 
