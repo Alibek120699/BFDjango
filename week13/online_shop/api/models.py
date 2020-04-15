@@ -27,10 +27,18 @@ class Product(Item):
             offer = f'In the shop appears exclusive product {self.name}'
             Offer.objects.get_or_create(title=offer)
 
+    def _try_to_create_last_product_offer(self):
+        offer = f'Do not miss the last one: {self.name}'
+        Offer.objects.create(title=offer)
+
     def save(self, *args, **kwargs):
         created = self.id is None
         super(Product, self).save(*args, **kwargs)
         self._try_to_create_offer(created)
+
+    def delete(self, *args, **kwargs):
+        super(Product, self).delete()
+        self._try_to_create_last_product_offer()
 
 
 class Service(Item):

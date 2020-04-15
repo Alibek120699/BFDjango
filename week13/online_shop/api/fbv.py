@@ -9,7 +9,7 @@ from .constants import SALESMAN
 
 @api_view(['GET', 'POST'])
 def service_order(request):
-    if request.user == SALESMAN:
+    if request.user.role == SALESMAN:
         return Response({'error': 'salesman can not create order'}, status=status.HTTP_403_FORBIDDEN)
     if request.method == 'GET':
         orders = ServiceOrder.objects.all()

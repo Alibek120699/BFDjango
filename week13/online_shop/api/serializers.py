@@ -56,19 +56,20 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class ProductOrderSerializer(OrderSerializer):
-    item = ProductFullSerializer()
+    item = ProductFullSerializer(read_only=True)
+    item_id = serializers.IntegerField(write_only=True)
 
     class Meta(OrderSerializer.Meta):
         model = ProductOrder
-        fields = OrderSerializer.Meta.fields + ('item', 'quantity')
+        fields = OrderSerializer.Meta.fields + ('item', 'item_id', 'quantity')
 
 
 class ServiceOrderSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    quantity = serializers.IntegerField()
     discount = serializers.IntegerField()
     price = serializers.IntegerField()
-    item = ServiceSerializer()
+    item_id = serializers.IntegerField(write_only=True)
+    item = ServiceSerializer(read_only=True)
 
     def create(self, validated_data):
         service_order = ServiceOrder.objects.create(**validated_data)

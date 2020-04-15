@@ -1,4 +1,5 @@
 from rest_framework import status, viewsets
+from rest_framework import generics, mixins
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -31,3 +32,23 @@ class MyUserViewSet(viewsets.ReadOnlyModelViewSet):
     def me(self, request):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
+
+
+class SalesmenListView(mixins.ListModelMixin,
+                       generics.GenericAPIView):
+    http_method_names = ['get']
+    queryset = MyUser.objects.get_salesmen()
+    serializer_class = MyUserSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class CustomersListView(mixins.ListModelMixin,
+                        generics.GenericAPIView):
+    http_method_names = ['get']
+    queryset = MyUser.objects.get_customers()
+    serializer_class = MyUserSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
