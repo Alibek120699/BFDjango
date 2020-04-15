@@ -7,6 +7,7 @@ from rest_framework.decorators import action
 
 from .models import Product
 from .serializers import ProductShortSerializer, ProductFullSerializer
+from .permissions import IsAllowedToCreateProduct
 
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ class ProductCreateView(mixins.CreateModelMixin,
     http_method_names = ['post']
     queryset = Product.objects.all()
     serializer_class = ProductFullSerializer
+    permission_classes = (IsAllowedToCreateProduct, )
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
@@ -59,9 +61,13 @@ class ProductViewSet(viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         queryset = Product.objects.all()
-        user = get_object_or_404(queryset, pk=pk)
-        serializer = ProductFullSerializer(user)
+        product = get_object_or_404(queryset, pk=pk)
+        serializer = ProductFullSerializer(product)
         return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        queryset = Product.objects.all()
+
 
     def destroy(self, request, pk=None):
         queryset = Product.objects.all()
@@ -70,8 +76,8 @@ class ProductViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def perform_destroy(self, instance):
-        logger.debug(f'Product object with {instance.id} id was deleted')
-        logger.info(f'Product object with {instance.id} id was deleted')
+        # logger.debug(f'Product object with {instance.id} id was deleted')
+        # logger.info(f'Product object with {instance.id} id was deleted')
         logger.warning(f'Product object with {instance.id} id was deleted')
         logger.error(f'Product object with {instance.id} id was deleted')
         logger.critical(f'Product object with {instance.id} id was deleted')

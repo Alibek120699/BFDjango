@@ -1,5 +1,7 @@
 from django.db import models
 
+from .validators import validate_extension, validate_file_size
+
 
 class Item(models.Model):
     name = models.CharField(max_length=50)
@@ -16,10 +18,16 @@ class Item(models.Model):
 class Product(Item):
     color = models.CharField(max_length=50)
     size = models.CharField(max_length=10)
+    img = models.ImageField(upload_to='product_files',
+                            validators=[validate_file_size],
+                            null=True, blank=True)
 
 
 class Service(Item):
     duration = models.PositiveIntegerField()
+    extra_description = models.FileField(upload_to='product_files',
+                                         validators=[validate_extension],
+                                         null=True, blank=True)
 
 
 class Order(models.Model):
