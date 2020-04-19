@@ -2,7 +2,7 @@ import random
 
 from django.core.management.base import BaseCommand
 
-from online_shop.api.models import Product, ShopStore
+from api.models import Product, ShopStore
 
 
 def create_shops(num=3):
@@ -33,7 +33,6 @@ class Command(BaseCommand):
 
         create_shops(total)
 
-        self.stdout.write()
         for i in range(total):
             if cheap:
                 p = Product.objects.create(name=f'{prefix}_shop {i}',

@@ -4,7 +4,7 @@ from rest_framework.routers import DefaultRouter
 from .views import ProductViewSet, ProductCreateView
 from .fbv import service_order, service_order_detail
 from .cbv import ProductOrderApiView, ProductOrderDetailApiView, OfferListApiView
-from .viewsets import ProductModelViewSet
+from .viewsets import ProductModelViewSet, ShopViewSet
 
 
 urlpatterns = [
@@ -19,5 +19,6 @@ urlpatterns = [
 router = DefaultRouter()
 router.register('products', ProductViewSet, basename='product')
 router.register('model_products', ProductModelViewSet, basename='model_products')
+router.register('shops', ShopViewSet, basename='shops')
 
 urlpatterns += router.urls

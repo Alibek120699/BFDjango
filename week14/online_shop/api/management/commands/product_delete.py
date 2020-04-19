@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 
-from online_shop.api.models import Product
+from api.models import Product
 
 
 class Command(BaseCommand):
