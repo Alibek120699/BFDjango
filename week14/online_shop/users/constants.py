@@ -1,0 +1,8 @@
+# user roles
+SALESMAN = 1
+CUSTOMER = 2
+
+USER_ROLES = (
+    (SALESMAN, 'SALESMAN'),
+    (CUSTOMER, 'CUSTOMER'),
+)
